@@ -85,3 +85,16 @@ jobs:
           # Change reviewdog reporter if you need [github-check,github-pr-review,github-pr-check].
           reporter: github-pr-review
 ```
+
+## Dev
+
+### Release new version
+
+1. Create a Pull Request with changes.
+2. Add one of the following labels to the PR:
+   - `bump:major`: Bump major version (e.g. v1.0.0 -> v2.0.0)
+   - `bump:minor`: Bump minor version (e.g. v1.0.0 -> v1.1.0)
+   - `bump:patch`: Bump patch version (e.g. v1.0.0 -> v1.0.1)
+3. Merge the PR.
+4. The release workflow will automatically bump the version, create a release, and update major/minor tags (e.g. v1).
+
