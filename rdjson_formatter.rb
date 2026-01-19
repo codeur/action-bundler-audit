@@ -5,7 +5,7 @@ GEMFILE_LOCK_PATH = "Gemfile.lock"
 
 CRITICALITY_RANK = {
   unknown: 0,
-  none: 0,
+  none: 1,
   low: 1,
   medium: 2,
   high: 3,
@@ -27,8 +27,13 @@ diagnostics = results.map do |result|
     Solution: upgrade to #{result.dig("advisory", "patched_versions").map{|v| "'#{v}'"}.join(', ')}
   EOS
 
-  criticality = result.dig("advisory", "criticality") || "unknown"
+  criticality = result.dig("advisory", "criticality").to_s.strip
+  criticality = "unknown" if criticality.empty?
   criticality_rank = CRITICALITY_RANK[criticality.to_sym]
+  if criticality_rank.nil?
+    warn "Unknown criticality '#{criticality}' encountered, falling back to :unknown"
+    criticality_rank = CRITICALITY_RANK[:unknown]
+  end
   max_criticality_rank = [max_criticality_rank, criticality_rank].max
 
   line = `grep -n -E '^\s{4}#{gem_name}' #{GEMFILE_LOCK_PATH} | cut -d : -f 1`.to_i
