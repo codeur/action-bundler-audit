@@ -50,9 +50,9 @@ else
 fi
 
 echo '::group:: Running bundler-audit with reviewdog 🐶 ...'
-# shellcheck disable=SC2086
 ${BUNDLE_EXEC}bundler-audit update
 
+# shellcheck disable=SC2086
 ${BUNDLE_EXEC}bundler-audit check ${INPUT_BUNDLER_AUDIT_FLAGS} --format json --quiet \
   | ruby ${GITHUB_ACTION_PATH}/rdjson_formatter/rdjson_formatter.rb \
   | reviewdog -f=rdjson \
