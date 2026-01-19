@@ -1,11 +1,9 @@
 #!/usr/bin/env ruby
 require 'json'
 
-GEMFILE_LOCK_PATH = "Gemfile.lock"
-
 CRITICALITY_RANK = {
   unknown: 0,
-  none: 1,
+  none: 0,
   low: 1,
   medium: 2,
   high: 3,
@@ -14,7 +12,8 @@ CRITICALITY_RANK = {
 
 SEVERITY = ["UNKNOWN_SEVERITY", "INFO", "WARNING", "ERROR"]
 
-input_json = JSON.parse(ARGF.read)
+gemfile_lock_path = ARGV[0] || "Gemfile.lock"
+input_json = JSON.parse(STDIN.read)
 
 max_criticality_rank = 0
 results = input_json["results"]
@@ -27,21 +26,21 @@ diagnostics = results.map do |result|
     Solution: upgrade to #{result.dig("advisory", "patched_versions").map{|v| "'#{v}'"}.join(', ')}
   EOS
 
-  criticality = result.dig("advisory", "criticality").to_s.strip
-  criticality = "unknown" if criticality.empty?
-  criticality_rank = CRITICALITY_RANK[criticality.to_sym]
-  if criticality_rank.nil?
-    warn "Unknown criticality '#{criticality}' encountered, falling back to :unknown"
+  criticality = result.dig("advisory", "criticality").to_s.strip&.to_sym
+  if CRITICALITY_RANK.key?(criticality)
+    criticality_rank = CRITICALITY_RANK[criticality]
+  else
+    warn "Unknown criticality '#{criticality}' encountered, falling back to :unknown (#{gem_name}/#{result.dig("advisory", "id")})"
     criticality_rank = CRITICALITY_RANK[:unknown]
   end
   max_criticality_rank = [max_criticality_rank, criticality_rank].max
 
-  line = `grep -n -E '^\s{4}#{gem_name}' #{GEMFILE_LOCK_PATH} | cut -d : -f 1`.to_i
+  line = `grep -n -E '^\s{4}#{gem_name}' #{gemfile_lock_path} | cut -d : -f 1`.to_i
 
   {
     message: message,
     location: {
-      path: GEMFILE_LOCK_PATH,
+      path: gemfile_lock_path,
       range: {
         start: {
           line: line,
