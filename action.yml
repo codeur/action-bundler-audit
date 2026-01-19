@@ -20,7 +20,6 @@ inputs:
       Exit code for reviewdog when errors are found [true,false]
       Default is `false`.
     default: 'false'
-    deprecationMessage: Deprecated, use `fail_level` instead.
   filter_mode:
     description: |
       Filtering mode for the reviewdog command [added,diff_context,file,nofilter].
@@ -35,8 +34,8 @@ inputs:
   reporter:
     description: |
       Reporter of reviewdog command [github-pr-check,github-check,github-pr-review].
-      Default is github-pr-check.
-    default: 'github-pr-check'
+      Default is github-check.
+    default: 'github-check'
   reviewdog_flags:
     description: 'Additional reviewdog flags'
     default: ''

@@ -30,6 +30,14 @@ Optional. Set bundler-audit version. Possible values:
 
 Optional. bundler-audit flags. (bundler-audit check --format json `<bundler_audit_flags>`).
 
+### `skip_install`
+
+Optional. Do not install bundler-audit or its extensions. Default: `false`.
+
+### `use_bundler`
+
+Optional. Run bundler-audit with bundle exec. Default: `false`.
+
 ### `tool_name`
 
 Optional. Tool name to use for reviewdog reporter. Useful when running multiple
@@ -50,9 +58,15 @@ The default is `github-pr-check`.
 Optional. Filtering mode for the reviewdog command [`added`, `diff_context`, `file`, `nofilter`].
 Default is `added`.
 
+### `fail_level`
+
+Optional. If set to `none`, always use exit code 0 for reviewdog. Otherwise, exit code 1 for reviewdog if it finds at least 1 issue with severity greater than or equal to the given level.
+Possible values: [`none`, `any`, `info`, `warning`, `error`].
+Default is `none`.
+
 ### `fail_on_error`
 
-Optional.  Exit code for reviewdog when errors are found [`true`, `false`].
+Optional. Deprecated, use `fail_level` instead. Exit code for reviewdog when errors are found [`true`, `false`].
 Default is `false`.
 
 ### `reviewdog_flags`

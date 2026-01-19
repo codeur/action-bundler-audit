@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 # Expected to run from the root repository.
 set -eux
 CWD=$(pwd)
