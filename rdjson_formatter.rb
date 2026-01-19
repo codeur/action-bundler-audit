@@ -27,8 +27,9 @@ diagnostics = results.map do |result|
     Solution: upgrade to #{result.dig("advisory", "patched_versions").map{|v| "'#{v}'"}.join(', ')}
   EOS
 
-  criticality = result.dig("advisory", "criticality") || "unknown"
-  criticality_rank = CRITICALITY_RANK[criticality.to_sym]
+  criticality = result.dig("advisory", "criticality").to_s.strip
+  criticality = "unknown" if criticality.empty?
+  criticality_rank = CRITICALITY_RANK[criticality.to_sym] || CRITICALITY_RANK[:unknown]
   max_criticality_rank = [max_criticality_rank, criticality_rank].max
 
   line = `grep -n -E '^\s{4}#{gem_name}' #{GEMFILE_LOCK_PATH} | cut -d : -f 1`.to_i
