@@ -2,60 +2,81 @@ name: 'Run bundler-audit with reviewdog'
 description: '🐶 Run bundler-audit with reviewdog on pull requests to improve code review experience.'
 author: 'tomferreira'
 inputs:
-  github_token:
-    description: 'GITHUB_TOKEN'
-    default: '${{ github.token }}'
-  bundler_audit_version:
-    description: 'Bundler-audit version'
+  # Please maintain inputs in alphabetical order
   bundler_audit_flags:
     description: 'Bundler-audit flags. (bundler-audit check --format json <bundler_audit_flags>)'
     default: ''
-  tool_name:
-    description: 'Tool name to use for reviewdog reporter'
-    default: 'bundler-audit'
-  workdir:
-    description: 'Working directory relative to the root directory.'
-    default: '.'
-  ### Flags for reviewdog ###
-  level:
-    description: 'Report level for reviewdog [info,warning,error]'
-    default: 'error'
-  reporter:
-    description: 'Reporter of reviewdog command [github-check,github-pr-review].'
-    default: 'github-check'
+  bundler_audit_version:
+    description: 'Bundler-audit version'
+  fail_level:
+    description: |
+      If set to `none`, always use exit code 0 for reviewdog. Otherwise, exit code 1 for reviewdog if it finds at least 1 issue with severity greater than or equal to the given level.
+      Possible values: [none,any,info,warning,error]
+      Default is `none`.
+    default: 'none'
+  fail_on_error:
+    description: |
+      Deprecated, use `fail_level` instead.
+      Exit code for reviewdog when errors are found [true,false]
+      Default is `false`.
+    default: 'false'
+    deprecationMessage: Deprecated, use `fail_level` instead.
   filter_mode:
     description: |
       Filtering mode for the reviewdog command [added,diff_context,file,nofilter].
       Default is added.
     default: 'added'
-  fail_on_error:
+  github_token:
+    description: 'GITHUB_TOKEN'
+    default: ${{ github.token }}
+  level:
+    description: 'Report level for reviewdog [info,warning,error]'
+    default: 'error'
+  reporter:
     description: |
-      Exit code for reviewdog when errors are found [true,false]
-      Default is `false`.
-    default: 'false'
+      Reporter of reviewdog command [github-pr-check,github-check,github-pr-review].
+      Default is github-pr-check.
+    default: 'github-pr-check'
   reviewdog_flags:
     description: 'Additional reviewdog flags'
     default: ''
+  skip_install:
+    description: "Do not install bundler-audit or its extensions. Default: `false`"
+    default: 'false'
+  tool_name:
+    description: 'Tool name to use for reviewdog reporter'
+    default: 'bundler-audit'
+  use_bundler:
+    description: "Run Rubocop with bundle exec. Default: `false`"
+    default: 'false'
+  workdir:
+    description: "The directory from which to look for and run bundler-audit. Default '.'"
+    default: '.'
 runs:
   using: 'composite'
   steps:
-    - uses: reviewdog/action-setup@v1
-      with:
-        reviewdog_version: v0.14.1
     - run: $GITHUB_ACTION_PATH/script.sh
-      shell: bash
+      shell: sh
       env:
-        INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
+        REVIEWDOG_VERSION: v0.21.0
+        # INPUT_<VARIABLE_NAME> is not available in Composite run steps
+        # https://github.community/t/input-variable-name-is-not-available-in-composite-run-steps/127611
+        # Please maintain inputs in alphabetical order
         INPUT_BUNDLER_AUDIT_VERSION: ${{ inputs.bundler_audit_version }}
         INPUT_BUNDLER_AUDIT_FLAGS: ${{ inputs.bundler_audit_flags }}
-        INPUT_TOOL_NAME: ${{ inputs.tool_name }}
+        INPUT_FAIL_LEVEL: ${{ inputs.fail_level }}
+        INPUT_FAIL_ON_ERROR: ${{ inputs.fail_on_error }}
+        INPUT_FILTER_MODE: ${{ inputs.filter_mode }}
+        INPUT_GITHUB_TOKEN: ${{ inputs.github_token }}
         INPUT_LEVEL: ${{ inputs.level }}
         INPUT_REPORTER: ${{ inputs.reporter }}
-        INPUT_FILTER_MODE: ${{ inputs.filter_mode }}
-        INPUT_FAIL_ON_ERROR: ${{ inputs.fail_on_error }}
         INPUT_REVIEWDOG_FLAGS: ${{ inputs.reviewdog_flags }}
+        INPUT_SKIP_INSTALL: ${{ inputs.skip_install }}
+        INPUT_TOOL_NAME: ${{ inputs.tool_name }}
+        INPUT_USE_BUNDLER: ${{ inputs.use_bundler }}
         INPUT_WORKDIR: ${{ inputs.workdir }}
-
+        BASE_REF: ${{ github.event.pull_request.base.sha }}
+        HEAD_REF: ${{ github.sha }}
 branding:
   icon: 'check-circle'
   color: 'red'
