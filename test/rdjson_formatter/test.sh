@@ -2,6 +2,9 @@
 # Expected to run from the root repository.
 set -eux
 CWD=$(pwd)
+
+bundler-audit update
+
 bundler-audit check ./test/rdjson_formatter/testdata/ --format json --quiet \
   | ruby ./rdjson_formatter/rdjson_formatter.rb test/rdjson_formatter/testdata/Gemfile.lock \
   | jq . \

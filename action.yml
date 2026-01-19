@@ -28,7 +28,7 @@ inputs:
     default: 'added'
   github_token:
     description: 'GITHUB_TOKEN'
-    default: ${{ github.token }}
+    default: '${{ github.token }}'
   level:
     description: 'Report level for reviewdog [info,warning,error]'
     default: 'error'
@@ -47,7 +47,7 @@ inputs:
     description: 'Tool name to use for reviewdog reporter'
     default: 'bundler-audit'
   use_bundler:
-    description: "Run Rubocop with bundle exec. Default: `false`"
+    description: "Run bundler-audit with bundle exec. Default: `false`"
     default: 'false'
   workdir:
     description: "The directory from which to look for and run bundler-audit. Default '.'"
@@ -75,8 +75,6 @@ runs:
         INPUT_TOOL_NAME: ${{ inputs.tool_name }}
         INPUT_USE_BUNDLER: ${{ inputs.use_bundler }}
         INPUT_WORKDIR: ${{ inputs.workdir }}
-        BASE_REF: ${{ github.event.pull_request.base.sha }}
-        HEAD_REF: ${{ github.sha }}
 branding:
   icon: 'check-circle'
   color: 'red'
