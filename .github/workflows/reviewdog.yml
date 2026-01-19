@@ -47,7 +47,6 @@ jobs:
         with:
           reporter: github-check
           level: warning
-          locale: "US"
 
   alex:
     name: runner / alex
