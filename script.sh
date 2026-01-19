@@ -50,6 +50,7 @@ else
 fi
 
 echo '::group:: Running bundler-audit with reviewdog 🐶 ...'
+# shellcheck disable=SC2086
 ${BUNDLE_EXEC}bundler-audit update
 
 # shellcheck disable=SC2086
