@@ -1,10 +1,10 @@
 # GitHub Action: Run bundler-audit with reviewdog :dog:
 
-[![Test](https://github.com/tomferreira/action-bundler-audit/workflows/Test/badge.svg)](https://github.com/tomferreira/action-bundler-audit/actions?query=workflow%3ATest)
-[![reviewdog](https://github.com/tomferreira/action-bundler-audit/workflows/reviewdog/badge.svg)](https://github.com/tomferreira/action-bundler-audit/actions?query=workflow%3Areviewdog)
-[![depup](https://github.com/tomferreira/action-bundler-audit/workflows/depup/badge.svg)](https://github.com/tomferreira/action-bundler-audit/actions?query=workflow%3Adepup)
-[![release](https://github.com/tomferreira/action-bundler-audit/workflows/release/badge.svg)](https://github.com/tomferreira/action-bundler-audit/actions?query=workflow%3Arelease)
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/tomferreira/action-bundler-audit?logo=github&sort=semver)](https://github.com/tomferreira/action-bundler-audit/releases)
+[![Test](https://github.com/codeur/action-bundler-audit/workflows/Test/badge.svg)](https://github.com/codeur/action-bundler-audit/actions?query=workflow%3ATest)
+[![reviewdog](https://github.com/codeur/action-bundler-audit/workflows/reviewdog/badge.svg)](https://github.com/codeur/action-bundler-audit/actions?query=workflow%3Areviewdog)
+[![depup](https://github.com/codeur/action-bundler-audit/workflows/depup/badge.svg)](https://github.com/codeur/action-bundler-audit/actions?query=workflow%3Adepup)
+[![release](https://github.com/codeur/action-bundler-audit/workflows/release/badge.svg)](https://github.com/codeur/action-bundler-audit/actions?query=workflow%3Arelease)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/codeur/action-bundler-audit?logo=github&sort=semver)](https://github.com/codeur/action-bundler-audit/releases)
 [![action-bumpr supported](https://img.shields.io/badge/bumpr-supported-ff69b4?logo=github&link=https://github.com/haya14busa/action-bumpr)](https://github.com/haya14busa/action-bumpr)
 
 ![Example comment made by the action, with github-pr-review](/.github/images/example-github-pr-review.png)
@@ -93,7 +93,7 @@ jobs:
         with:
           ruby-version: 3.0.0
       - name: bundler_audit
-        uses: tomferreira/action-bundler-audit@v1
+        uses: codeur/action-bundler-audit@v1
         with:
           bundler_audit_version: gemfile
           # Change reviewdog reporter if you need [github-check,github-pr-review,github-pr-check].

@@ -1,6 +1,6 @@
 name: 'Run bundler-audit with reviewdog'
 description: '🐶 Run bundler-audit with reviewdog on pull requests to improve code review experience.'
-author: 'tomferreira'
+author: 'codeur'
 inputs:
   # Please maintain inputs in alphabetical order
   bundler_audit_flags:
