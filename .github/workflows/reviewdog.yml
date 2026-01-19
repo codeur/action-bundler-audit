@@ -42,13 +42,6 @@ jobs:
           fail_level: any
           yamllint_flags: '-d "{extends: default, rules: {truthy: disable}}" .'
 
-  shfmt:
-    name: runner / shfmt
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-      - uses: reviewdog/action-shfmt@v1
-
   actionlint:
     name: runner / actionlint
     runs-on: ubuntu-latest
