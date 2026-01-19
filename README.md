@@ -98,3 +98,6 @@ jobs:
 3. Merge the PR.
 4. The release workflow will automatically bump the version, create a release, and update major/minor tags (e.g. v1).
 
+### Labels
+
+Managed by GitHub Actions. See .github/labels.json.
