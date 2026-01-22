@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: haya14busa/action-depup@1
+      - uses: reviewdog/action-depup@1
         id: depup
         with:
           file: action.yml
