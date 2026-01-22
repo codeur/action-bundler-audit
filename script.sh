@@ -4,13 +4,12 @@ set -e
 set -o pipefail
 
 cd "${GITHUB_WORKSPACE}/${INPUT_WORKDIR}" || exit
-export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 
 TEMP_PATH="$(mktemp -d)"
 PATH="${TEMP_PATH}:$PATH"
 
 echo '::group::🐶 Installing reviewdog ... https://github.com/reviewdog/reviewdog'
-curl -sfL "https://raw.githubusercontent.com/reviewdog/reviewdog/${REVIEWDOG_VERSION}/install.sh" | sh -s -- -b "${TEMP_PATH}" "${REVIEWDOG_VERSION}" 2>&1
+curl -sfL https://raw.githubusercontent.com/reviewdog/reviewdog/fd59714416d6d9a1c0692d872e38e7f8448df4fc/install.sh | sh -s -- -b "${TEMP_PATH}" "${REVIEWDOG_VERSION}" 2>&1
 echo '::endgroup::'
 
 if [ "${INPUT_SKIP_INSTALL}" = "false" ]; then
@@ -46,6 +45,8 @@ if [ "${INPUT_USE_BUNDLER}" = "false" ]; then
 else
   BUNDLE_EXEC="bundle exec "
 fi
+
+export REVIEWDOG_GITHUB_API_TOKEN="${INPUT_GITHUB_TOKEN}"
 
 echo '::group:: Running bundler-audit with reviewdog 🐶 ...'
 # shellcheck disable=SC2086
