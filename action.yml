@@ -40,7 +40,7 @@ inputs:
     description: 'Additional reviewdog flags'
     default: ''
   skip_install:
-    description: "Do not install bundler-audit or its extensions. Default: `false`"
+    description: "Do not install bundler-audit. Default: `false`"
     default: 'false'
   tool_name:
     description: 'Tool name to use for reviewdog reporter'

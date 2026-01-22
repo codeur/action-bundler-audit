@@ -7,36 +7,34 @@
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/codeur/action-bundler-audit?logo=github&sort=semver)](https://github.com/codeur/action-bundler-audit/releases)
 [![action-bumpr supported](https://img.shields.io/badge/bumpr-supported-ff69b4?logo=github&link=https://github.com/haya14busa/action-bumpr)](https://github.com/haya14busa/action-bumpr)
 
-![Example comment made by the action, with github-pr-review](/.github/images/example-github-pr-review.png)
-
 This action runs [bundler-audit](https://github.com/rubysec/bundler-audit) with
 [reviewdog](https://github.com/reviewdog/reviewdog) on pull requests to improve
 code review experience.
 
-## Input
+## Examples
+
+### With `github-pr-review`
+
+With `reporter: github-pr-review` a comment is added to the Pull Request Conversation:
+
+![Example comment made by the action, with github-pr-review](/.github/images/example-github-pr-review.png)
+
+## Inputs
 
 ### `github_token`
 
 `GITHUB_TOKEN`. Default is `${{ github.token }}`.
 
-### `bundler_audit_version`
-
-Optional. Set bundler-audit version. Possible values:
-* empty or omit: install latest version
-* `gemfile`: install version from Gemfile (`Gemfile.lock` should be presented, otherwise it will fallback to latest bundler version)
-* version (e.g. `1.9.0`): install said version
-
 ### `bundler_audit_flags`
 
 Optional. bundler-audit flags. (bundler-audit check --format json `<bundler_audit_flags>`).
 
-### `skip_install`
+### `bundler_audit_version`
 
-Optional. Do not install bundler-audit or its extensions. Default: `false`.
-
-### `use_bundler`
-
-Optional. Run bundler-audit with bundle exec. Default: `false`.
+Optional. Set bundler-audit version. Possible values:
+- empty or omit: install latest version
+- `gemfile`: install version from Gemfile (`Gemfile.lock` should be presented, otherwise it will fallback to latest bundler version)
+- version (e.g. `1.9.0`): install said version
 
 ### `tool_name`
 
@@ -53,11 +51,6 @@ It's same as `-level` flag of reviewdog.
 Optional. Reporter of reviewdog command [`github-pr-check`, `github-check`, `github-pr-review`].
 The default is `github-pr-check`.
 
-### `filter_mode`
-
-Optional. Filtering mode for the reviewdog command [`added`, `diff_context`, `file`, `nofilter`].
-Default is `added`.
-
 ### `fail_level`
 
 Optional. If set to `none`, always use exit code 0 for reviewdog. Otherwise, exit code 1 for reviewdog if it finds at least 1 issue with severity greater than or equal to the given level.
@@ -69,9 +62,22 @@ Default is `none`.
 Optional. Deprecated, use `fail_level` instead. Exit code for reviewdog when errors are found [`true`, `false`].
 Default is `false`.
 
+### `filter_mode`
+
+Optional. Filtering mode for the reviewdog command [`added`, `diff_context`, `file`, `nofilter`].
+Default is `added`.
+
 ### `reviewdog_flags`
 
 Optional. Additional reviewdog flags.
+
+### `skip_install`
+
+Optional. Do not install bundler-audit. Default: `false`.
+
+### `use_bundler`
+
+Optional. Run bundler-audit with bundle exec. Default: `false`.
 
 ### `workdir`
 
@@ -88,15 +94,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
-      - uses: ruby/setup-ruby@v1
+        uses: actions/checkout@v6
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 3.0.0
+          ruby-version: 3.4
       - name: bundler_audit
         uses: codeur/action-bundler-audit@v1
         with:
           bundler_audit_version: gemfile
-          # Change reviewdog reporter if you need [github-check,github-pr-review,github-pr-check].
           reporter: github-pr-review
 ```
 
@@ -111,3 +117,7 @@ jobs:
    - `bump:patch`: Bump patch version (e.g. v1.0.0 -> v1.0.1)
 3. Merge the PR.
 4. The release workflow will automatically bump the version, create a release, and update major/minor tags (e.g. v1).
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit)
